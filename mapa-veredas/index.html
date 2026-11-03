@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veredas de Boyacá</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    html, body, #mapa { height: 100%; margin: 0; }
+    #titulo { position: absolute; top: 10px; left: 60px; z-index: 1000;
+              background: white; padding: 6px 12px; border-radius: 6px;
+              font-family: sans-serif; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+  </style>
+</head>
+<body>
+  <div id="titulo"><b>Veredas de Boyacá</b> — <span id="estado">cargando...</span></div>
+  <div id="mapa"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const mapa = L.map("mapa").setView([5.54, -73.36], 8);   // Boyacá
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap | Datos: IDE Boyacá"
+    }).addTo(mapa);
+
+    // Estilo de las veredas (polígonos)
+    const estilo = { color: "#1b5e20", weight: 1, fillColor: "#66bb6a", fillOpacity: 0.45 };
+    const resaltado = { color: "#e65100", weight: 2, fillColor: "#ffb74d", fillOpacity: 0.7 };
+
+    const capa = L.geoJSON(null, {
+      style: estilo,
+      onEachFeature: (f, layer) => {
+        layer.bindPopup(`<b>${f.properties.NOMBRE_VER}</b><br>${f.properties.NOMB_MPIO}<br>Código: ${f.properties.CODIGO_VER}`);
+        layer.on("mouseover", () => layer.setStyle(resaltado));
+        layer.on("mouseout", () => layer.setStyle(estilo));
+      }
+    }).addTo(mapa);
+
+    // Servicio vivo: veredas de Boyacá (IDE Boyacá, FeatureServer), con paginación
+    const base = "https://services6.arcgis.com/Ex2fmFOuTOHRZtML/ArcGIS/rest/services/"
+      + "Veredas_Boyaca_2024/FeatureServer/0/query"
+      + "?where=1%3D1&outFields=NOMB_MPIO,NOMBRE_VER,CODIGO_VER&outSR=4326&f=geojson"
+      + "&geometryPrecision=5&maxAllowableOffset=0.0005";
+    const bloque = 1000;
+
+    async function cargar(offset = 0, total = 0) {
+      const r = await fetch(`${base}&resultOffset=${offset}&resultRecordCount=${bloque}`);
+      const geo = await r.json();
+      capa.addData(geo);
+      total += geo.features.length;
+      document.getElementById("estado").textContent = `${total} veredas`;
+      if (geo.features.length === bloque) cargar(offset + bloque, total);
+    }
+    cargar();
+  </script>
+</body>
+</html>
