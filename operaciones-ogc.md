@@ -3,7 +3,7 @@
 Aylyn Daniela Monroy
 **Servicio principal:** WMS/WFS del DANE, MGN 2024 (`https://geoportal.dane.gov.co/mparcgis/services/MGN2024/Serv_CapasMGN_2024/MapServer`)
 
-## 1. WMS — GetCapabilities
+## 1. WMS GetCapabilities
 
 URL:
 ```
@@ -23,7 +23,7 @@ El servicio publica 10 capas de la más detallada a la más general:
 
 ![Capa Departamento](capturas/c2_1_departamento.png)
 
-## 2. WMS — GetMap
+## 2. WMS GetMap
 
 URL propia:
 ```
@@ -34,7 +34,7 @@ Con el bbox aproximado de la guía la imagen salía recortada. Se amplió el bbo
 
 ![GetMap Boyacá](capturas/c2_2_getmap_boyaca.png)
 
-## 3. WFS — GetFeature filtrado
+## 3. WFS GetFeature filtrado
 
 filtro espacial en GeoJSON, hecha con Python. En WFS 2.0 con EPSG:4326 el bbox va en orden:
 ```
