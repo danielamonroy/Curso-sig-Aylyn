@@ -1,6 +1,6 @@
 # Operaciones OGC — Capítulo 2
 
-**Autora:** Daniela Monroy
+Aylyn Daniela Monroy
 **Servicio principal:** WMS/WFS del DANE, MGN 2024 (`https://geoportal.dane.gov.co/mparcgis/services/MGN2024/Serv_CapasMGN_2024/MapServer`)
 
 ## 1. WMS — GetCapabilities
