@@ -1,4 +1,4 @@
-# Operaciones OGC — Capítulo 2
+# Operaciones OGC Capítulo 2
 
 Aylyn Daniela Monroy
 **Servicio principal:** WMS/WFS del DANE, MGN 2024 (`https://geoportal.dane.gov.co/mparcgis/services/MGN2024/Serv_CapasMGN_2024/MapServer`)
